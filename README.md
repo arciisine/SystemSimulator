@@ -88,6 +88,6 @@ As you can see, the Server and Client have to be defined and given their logic. 
 
 Once all of the configuration is established, the simulation is created, and all sub resources are registered. This registration allows for proper event propagation and removes the need for any global variables that would prohibit running multiple simulations.
 
-And finally, we need to establish the networking manager within the simulation.  Instead of requiring each node to pass the network manager in as a constructor param, we realy upon dependency injection to allow all nodes in the same simulation to receive the same network manager.
+And finally, we need to establish the networking manager within the simulation.  Instead of requiring each node to pass the network manager in as a constructor param, we realy upon dependency injection to allow all nodes in the same simulation to receive the same network manager. Something of note, is that in lieu of using IP address or hostnames, a URI is provided to each node in the simulation.  This allows for directing requests at specific nodes or even sub resources on a node (think applications living on a host).  This separates out the targeting and lookup process apart from the networking subsystem.
 
 Once this is done, the simulation is ready to run. Enjoy!
