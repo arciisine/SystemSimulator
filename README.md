@@ -4,7 +4,10 @@ The system simulator framework is a set of tools to properly emulate the perform
 
 ## Getting started
 
-To install, run `npm i`
+Ensure NodeJS 7.0.0 or higher is installed
+
+Install local dependencies, run `npm i`
+Install global dependencies, run `npm i -g ts-node`
 
 To run a simulation, run `ts-node src/test/<name>.ts`
 
