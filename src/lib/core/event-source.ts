@@ -7,6 +7,7 @@ export class EventSource extends Resource {
   private finished: number = 0;
   private fns: Function[] = [];
   private available: number[] = [];
+  private ids: Map<number, string> = new Map();
 
   constructor(objs: Resource[], method: string, public count: number, public duration: Duration = Duration.millis(0)) {
     super(`${getId(objs[0].constructor.name)}_source`);
@@ -20,10 +21,13 @@ export class EventSource extends Resource {
         while (this.available.length && (this.finished + this.active.size) <= this.count) {
           let idx = this.available.shift();
           let promise;
+          this.ids.set(idx, getId('user'));
+          this.emit('scenarioStarted', this.ids.get(idx));
           promise = this.fns[idx]().then(() => ({ promise, idx }), () => ({ promise, idx }));
           this.active.add(promise);
         }
         let { idx, promise } = await Promise.race(this.active);
+        this.emit('scenarioEnded', this.ids.get(idx));
         this.active.delete(promise);
         this.available.push(idx)
         this.finished++;

@@ -4,7 +4,7 @@ import { Resource } from "./resource";
 import { logPromise } from "./util";
 import { Resolution } from "./duration";
 
-type EventHandler = (e: Event, time: number) => void;
+type EventHandler = (e: Event) => void;
 
 
 export class Simulation extends Resource {
@@ -49,16 +49,13 @@ export class Simulation extends Resource {
 
     while ((top = this._eventHeap.removeHead()) || this._pending.size > 0) {
       if (top) {
-        if (Number.isNaN(top.time)) {
-          console.log(top, top.duration, top.duration.resolve(this.resolution));
-        }
         this._time = top.time; // Move time to time of current event
         this.resolve(top);
         for (let ticker of this._tickers) {
-          ticker(top, this._time);
+          ticker(top);
         }
       } else {
-        await new Promise(resolve => process.nextTick(resolve));
+        await 1;
       }
     }
   }
